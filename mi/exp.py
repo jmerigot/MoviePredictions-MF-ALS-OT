@@ -38,15 +38,19 @@ class Solve:
         diff = np.ma.subtract(predictions, masked)
         squared = np.ma.power(diff, 2)
         return np.ma.sqrt(np.ma.mean(squared))
+    
+    def predict(self):
+        return self.I@self.U.T
 
-data_path = '../datasets/'
-data = np.load(data_path + 'ratings_train.npy')
-test_data = np.load(data_path + 'ratings_test.npy')
+if __name__ == '__main__':
+    data_path = '../datasets/'
+    data = np.load(data_path + 'ratings_train.npy')
+    test_data = np.load(data_path + 'ratings_test.npy')
 
 
-solver = Solve(k = 5,l=0.0001,mu = 0.0001,alpha = 0.00007,beta = 0.00007,train_data=data, n_steps=1000)
-pred = solver.train()
-rmse = solver.rmse(test_data)
-train_rmse = solver.rmse(data)
-print(f"RMSE against TRAIN: {train_rmse}")
-print(f"RMSE against TEST: {rmse}")
+    solver = Solve(k = 5,l=0.0001,mu = 0.0001,alpha = 0.00007,beta = 0.00007,train_data=data, n_steps=1000)
+    pred = solver.train()
+    rmse = solver.rmse(test_data)
+    train_rmse = solver.rmse(data)
+    print(f"RMSE against TRAIN: {train_rmse}")
+    print(f"RMSE against TEST: {rmse}")
