@@ -3,7 +3,7 @@ import numpy as np
 import os
 from tqdm import tqdm, trange
 import argparse
-
+from mi.exp import Solve
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate a completed ratings table.')
@@ -21,9 +21,9 @@ if __name__ == '__main__':
     
 
     # Any method you want
-    average = np.nanmean(table)
-    table = np.nan_to_num(table, nan=average)
-
+    solver = Solve(k=5,mu = 0.02,alpha = 0.0005,beta = 0.0005,train_data=table, n_steps=50)
+    pred = solver.train()
+    table = solver.predict()
     
 
     # Save the completed table 

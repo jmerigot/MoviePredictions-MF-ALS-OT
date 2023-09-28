@@ -1,3 +1,4 @@
 datasets/
 *.npy
 jm/venv/
+__pycache__
