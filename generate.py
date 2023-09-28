@@ -21,9 +21,7 @@ if __name__ == '__main__':
     
 
     # Any method you want
-
-
-    solver = Solve(k = 5,l=0.0001,mu = 0.0001,alpha = 0.00007,beta = 0.00007,train_data=table, n_steps=1000)
+    solver = Solve(k=5,mu = 0.02,alpha = 0.0005,beta = 0.0005,train_data=table, n_steps=50)
     pred = solver.train()
     table = solver.predict()
     
