@@ -8,7 +8,7 @@ class Solve:
         self.alpha =alpha
         self.beta = beta
         self.data = np.copy(train_data)
-        self.non_nan = np.argwhere(~np.isnan(data))
+        self.non_nan = np.argwhere(~np.isnan(train_data))
         self.descent = descent_method
         self.I = np.random.rand(len(self.data),self.k) #Generating random matrices, maybe a better initialization can be initialized
         self.U = np.random.rand(len(self.data[0]),self.k).T
@@ -38,7 +38,7 @@ class Solve:
                 loss.append(e)
 
             for (i, j) in self.non_nan:
-                eij = data[i][j] - np.dot(self.I[i,:],self.U[:,j])
+                eij = self.data[i][j] - np.dot(self.I[i,:],self.U[:,j])
                 for k in range(self.k):
                     self.I[i, k] = self.I[i, k] + self.alpha * (2 * eij * self.U[k, j] - self.mu * self.I[i, k])
                     self.U[k, j] = self.U[k, j] + self.beta * (2 * eij * self.I[i, k] - self.mu * self.U[k, j])
