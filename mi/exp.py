@@ -43,6 +43,8 @@ class Solve:
                     self.I[i, k] = self.I[i, k] + self.alpha * (2 * eij * self.U[k, j] - self.mu * self.I[i, k])
                     self.U[k, j] = self.U[k, j] + self.beta * (2 * eij * self.I[i, k] - self.mu * self.U[k, j])
         
+        self.I = np.around(self.I*2, 0)/2
+        self.U = np.around(self.U*2, 0)/2
         return loss
 
 
