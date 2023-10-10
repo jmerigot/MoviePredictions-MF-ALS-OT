@@ -8,7 +8,7 @@ class Solve:
         self.alpha =alpha
         self.beta = beta
         self.data = np.copy(train_data)
-        self.non_nan = np.argwhere(~np.isnan(data))
+        self.non_nan = np.argwhere(~np.isnan(train_data))
         self.descent = descent_method
         self.I = np.random.rand(len(self.data),self.k) #Generating random matrices, maybe a better initialization can be initialized
         self.U = np.random.rand(len(self.data[0]),self.k).T
@@ -38,11 +38,13 @@ class Solve:
                 loss.append(e)
 
             for (i, j) in self.non_nan:
-                eij = data[i][j] - np.dot(self.I[i,:],self.U[:,j])
+                eij = self.data[i][j] - np.dot(self.I[i,:],self.U[:,j])
                 for k in range(self.k):
                     self.I[i, k] = self.I[i, k] + self.alpha * (2 * eij * self.U[k, j] - self.mu * self.I[i, k])
                     self.U[k, j] = self.U[k, j] + self.beta * (2 * eij * self.I[i, k] - self.mu * self.U[k, j])
         
+        self.I = np.around(self.I*2, 0)/2
+        self.U = np.around(self.U*2, 0)/2
         return loss
 
 
@@ -82,22 +84,12 @@ if __name__ == '__main__':
     test_data = np.load(data_path + 'ratings_test.npy')
     np.random.seed(42)
     t_1 = time.time()
-    solver_2 = Solve(k=5,mu = 0.0002,alpha = 0.00005,beta = 0.000005,train_data=data, n_steps=50)
-    pred = solver_2.train_masked()
-    t_2 = time.time()
-    print(f'elapsed time solver with mask: {t_2 - t_1}')
-    t_1 = time.time()
-    solver = Solve(k=5,mu = 0.02,alpha = 0.0005,beta = 0.0005,train_data=data, n_steps=50)
+    solver = Solve(k=1,mu = 0.5,alpha = 0.005,beta = 0.005,train_data=data, n_steps=100)
     pred = solver.train()
     t_2 = time.time()
     print(f'elapsed time solver without mask: {t_2 - t_1}')
     rmse = solver.rmse(test_data)
     train_rmse = solver.rmse(data)
     print("Solver no mask")
-    print(f"RMSE against TRAIN: {train_rmse}")
-    print(f"RMSE against TEST: {rmse}")
-    rmse = solver_2.rmse(test_data)
-    train_rmse = solver_2.rmse(data)
-    print("Solver mask")
     print(f"RMSE against TRAIN: {train_rmse}")
     print(f"RMSE against TEST: {rmse}")
