@@ -2,3 +2,4 @@ datasets/
 *.npy
 jm/venv/
 __pycache__
+mi/venv
