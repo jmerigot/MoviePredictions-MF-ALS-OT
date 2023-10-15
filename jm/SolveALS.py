@@ -52,7 +52,7 @@ class Solve:
         return loss
     
     
-    def matrix_completion_als(self, max_iter=100, tol=1e-6, lambda_reg=0.1):
+    def matrix_completion_als(self, max_iter=125, tol=1e-6, lambda_reg=0.34):
         m, n = self.data.shape
         error = 1e10
         Omega = (self.data > 0).astype(int)
@@ -86,29 +86,29 @@ class Solve:
             masked_T = np.ma.transpose(masked)
             d_U = np.ma.add(np.ma.add(-2*np.ma.dot(masked_T,self.I), 2*self.U.T@self.I.T@self.I) , 2*self.mu*self.U.T)
             #d_U = np.ma.add(np.ma.add(-2*masked_T@self.I, 2*self.U@self.I.T@self.I),2*self.mu*self.U)
-            d_I = np.ma.add(np.ma.add(-2*np.ma.dot(masked,self.U.T) ,2*self.I@self.U@self.U.T), 2*self.mu*self.I)
+            d_I = np.ma.add(np.ma.add(-2*np.ma.dot(masked,self.U.T), 2*self.I@self.U@self.U.T), 2*self.mu*self.I)
             self.I -= self.alpha*d_I
             self.U -= self.beta*d_U.T
 
     def rmse(self, test_matrix):
         masked = np.ma.array(test_matrix, mask=np.isnan(test_matrix))
-        predictions = np.around((self.I@self.U)*2, 0)/2
+        predictions = np.clip(np.around((self.I@self.U)*2, 0)/2, 1, 5)
         diff = np.ma.subtract(predictions, masked)
         squared = np.ma.power(diff, 2)
         return np.ma.sqrt(np.ma.mean(squared))
     
     def rmse_als(self, test_matrix):
         masked = np.ma.array(test_matrix, mask=np.isnan(test_matrix))
-        predictions = np.around((self.I_2@self.U_2.T)*2, 0)/2
+        predictions = np.clip(np.around((self.I_2@self.U_2.T)*2, 0)/2, 1, 5)
         diff = np.ma.subtract(predictions, masked)
         squared = np.ma.power(diff, 2)
         return np.ma.sqrt(np.ma.mean(squared))
 
     def predict(self):
-        return np.around((self.I@self.U)*2, 0)/2
+        return np.clip(np.around((self.I@self.U)*2, 0)/2, 1, 5)
     
     def predict_als(self):
-        return np.around((self.I_2@self.U_2.T)*2, 0)/2
+        return np.clip(np.around((self.I_2@self.U_2.T)*2, 0)/2, 1, 5)
     
 
 if __name__ == '__main__':
