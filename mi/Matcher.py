@@ -139,8 +139,8 @@ class Matcher():
 
         A = A0
         C = np.power(gamma * self.U0.T.dot(A).dot(self.V0) + const, degree)
-        
-        r_sample, c_sample = self.pi_sample.sum(axis=1), self.pi_sample.sum(axis=0)
+        pi_non_nan = np.nan_to_num(self.pi_sample)
+        r_sample, c_sample = pi_non_nan.sum(axis=1), pi_non_nan.sum(axis=0)
         v = np.log(ot.rot(C1, r_sample, r_sample, lam=lambda_mu)[2]) / lambda_mu
         w = np.log(ot.rot(C2, c_sample, c_sample, lam=lambda_nu)[2]) / lambda_nu
         v_dual = (np.log(r_sample) - np.log(np.sum(np.exp(lambda_mu * (np.outer(np.ones(self.m), v) - C1)), axis=0))) / lambda_mu
@@ -167,14 +167,13 @@ class Matcher():
         best_loss = np.inf
         best_configuration = None
         
+        non_zeros = np.argwhere(~np.isnan(self.pi_sample))
 
         for i in range(max_outer_iteration):
-            print('outer iteration',i)
             Z = np.exp(- lam * C)
             M = delta * (np.outer(v, np.ones(self.n)) + np.outer(np.ones(self.m), w)) * Z 
       
             for j in range(max_inner_iteration):
-                print(f'inner iteration here {j}')
                 def p(theta):
                     xi1 = (r_sample / (M - theta * Z).dot(eta))
                     return xi1.dot(Z).dot(eta) - 1
@@ -192,7 +191,12 @@ class Matcher():
                 
             pi = np.dot(np.diag(xi), np.exp(-lam * C) * eta)
 
-            grad_C = lam * (self.pi_sample + (theta1 - delta*(np.outer(v, np.ones(self.n)) + np.outer(np.ones(self.m), w))) * pi)
+            # grad_C = lam * (self.pi_sample + (theta1 - delta*(np.outer(v, np.ones(self.n)) + np.outer(np.ones(self.m), w))) * pi)
+            v_outer = np.outer(v, np.ones(self.n))
+            w_outer  = np.outer(np.ones(self.m), w)
+            grad_C = np.zeros((self.m,self.n))
+            for (j, k) in non_zeros:
+                grad_C[j, k] = lam * (self.pi_sample[j,k] + (theta1 - delta*(v_outer[j, k] + w_outer[j,k] * pi[j, k])) * pi[j,k])
 
             factor = grad_C * degree * gamma * np.power(gamma * self.U0.T.dot(A).dot(self.V0) + const , degree - 1)
             grad_A = self.U0.dot(factor).dot(self.V0.T)
@@ -206,7 +210,7 @@ class Matcher():
             
             losses.append(loss(pi, self.pi_sample, delta))
             KLs.append(KL(pi, self.pi_sample))
-            
+
             if KLs[i] < best_loss:
                 best_configuration = [C, A, pi]
                 best_loss = KLs[i]
