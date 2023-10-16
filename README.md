@@ -1,5 +1,12 @@
 # DataLabAssignement1
 
+# Note for Reviewers:
+
+The code is organized into three seperate directories:
+- `jm/SolveALS.py` contains the core SGD and ALS implementations, along with the grid search and hyper parameter tuning.
+- `ek/ot_solver.ipynb` contains the notebook with the Inverse Optimal Transport implementation and analysis
+- `mi/github_stff.ipynb` contains the notebook with the Regularized Inverse Optimal Transport analysis, the implementation is in the `Matcher.py` script.
+
 ## generate.py
 Use the file *generate.py* to complete your ratings table. 
 It takes in argument *--name* the name of the files you want to use and it saves the complete matrix as *output.npy*.
