@@ -1,7 +1,5 @@
 import numpy as np
-import pandas as pd
 import ot
-import matplotlib.pyplot as plt
 from scipy.optimize import minimize, Bounds
 from scipy.spatial.distance import pdist, squareform
 from sklearn.decomposition import PCA
