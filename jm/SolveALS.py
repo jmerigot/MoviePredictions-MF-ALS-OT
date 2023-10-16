@@ -21,15 +21,6 @@ class Solve:
                 
         self.n_steps = n_steps
     
-    def compute_sgd(self):
-        d_I, d_U = 0, 0
-        for (i, j) in self.non_nan:
-            eij = data[i][j] - np.dot(self.I[i,:],self.U[:,j])
-            for k in range(self.k):
-                d_I += self.I[i][k] + self.alpha * (2 * eij * self.U[k][j] - self.mu * self.I[i][k])
-                d_U += self.U[k][j] + self.beta * (2 * eij * self.I[i][k] - self.mu * self.U[k][j])
-
-        return d_I,d_U
     
     def train(self, output_loss=False):
         loss = []
@@ -80,16 +71,6 @@ class Solve:
             error = new_error
     
 
-    def train_masked(self):
-        for _ in range(self.n_steps):
-            masked = np.ma.array(self.data, mask=np.isnan(self.data))
-            masked_T = np.ma.transpose(masked)
-            d_U = np.ma.add(np.ma.add(-2*np.ma.dot(masked_T,self.I), 2*self.U.T@self.I.T@self.I) , 2*self.mu*self.U.T)
-            #d_U = np.ma.add(np.ma.add(-2*masked_T@self.I, 2*self.U@self.I.T@self.I),2*self.mu*self.U)
-            d_I = np.ma.add(np.ma.add(-2*np.ma.dot(masked,self.U.T), 2*self.I@self.U@self.U.T), 2*self.mu*self.I)
-            self.I -= self.alpha*d_I
-            self.U -= self.beta*d_U.T
-
     def rmse(self, test_matrix):
         masked = np.ma.array(test_matrix, mask=np.isnan(test_matrix))
         predictions = np.clip(np.around((self.I@self.U)*2, 0)/2, 1, 5)
@@ -131,19 +112,6 @@ if __name__ == '__main__':
     table = solver.predict()
     print(table)
     
-    '''
-    t_1 = time.time()
-    solver_2 = Solve(k=3, mu = 0.0002, alpha = 0.00005, beta = 0.000005, train_data=data, n_steps=50)
-    pred = solver_2.train_masked()
-    t_2 = time.time()
-    print(f'\nElapsed time solver with mask: {t_2 - t_1}')
-    rmse = solver_2.rmse(test_data)
-    train_rmse = solver_2.rmse(data)
-    print("\nSolver mask")
-    print(f"RMSE against TRAIN: {train_rmse}")
-    print(f"RMSE against TEST: {rmse}")
-    '''
-    
     t_1 = time.time()
     solver_als = Solve(k=1, mu=0.02, alpha=0.0005, beta=0.0005, train_data=data, n_steps=50)
     pred = solver_als.matrix_completion_als()
@@ -156,4 +124,3 @@ if __name__ == '__main__':
     print(f"RMSE against TEST: {rmse}")
     table_als = solver_als.predict_als()
     print(table_als)
-
