@@ -148,17 +148,17 @@ class Matcher():
         
         pi, xi, eta = ot.rot(C, r_sample, c_sample, lam)[:-1]
         
-        def KL(pi1, pi2):
-            p, q = pi1.ravel(), pi2.ravel()
-            return np.sum(p * np.log(p / q))
+        # def KL(pi1, pi2):
+        #     p, q = pi1.ravel(), pi2.ravel()
+        #     return np.sum(p * np.log(p / q))
         
-        def rel_error(M, M0):
-            return np.linalg.norm(M - M0) / np.linalg.norm(M0)
+        # def rel_error(M, M0):
+        #     return np.linalg.norm(M - M0) / np.linalg.norm(M0)
         
-        def loss(pi, pi_sample, reg_para):
-            ans = -np.sum(pi_sample * np.log(pi)) \
-                + reg_para * (ot.rot(C1, pi.sum(axis=1), pi_sample.sum(axis=1))[-1] + ot.rot(C2, pi.sum(axis=0), pi_sample.sum(axis=0))[-1])
-            return ans
+        # def loss(pi, pi_sample, reg_para):
+        #     ans = -np.sum(pi_sample * np.log(pi)) \
+        #         + reg_para * (ot.rot(C1, pi.sum(axis=1), pi_sample.sum(axis=1))[-1] + ot.rot(C2, pi.sum(axis=0), pi_sample.sum(axis=0))[-1])
+        #     return ans
 
         
         losses = []
@@ -208,8 +208,8 @@ class Matcher():
             v_dual = (np.log(pi.sum(axis=1)) - np.log(np.sum(np.exp(lambda_mu * (np.outer(np.ones(self.m), v) - C1)), axis=0))) / lambda_mu
             w_dual = (np.log(pi.sum(axis=0)) - np.log(np.sum(np.exp(lambda_nu * (np.outer(np.ones(self.n), w) - C2)), axis=0))) / lambda_nu
             
-            losses.append(loss(pi, self.pi_sample, delta))
-            KLs.append(KL(pi, self.pi_sample))
+            # losses.append(loss(pi, self.pi_sample, delta))
+            # KLs.append(KL(pi, self.pi_sample))
 
             if KLs[i] < best_loss:
                 best_configuration = [C, A, pi]
