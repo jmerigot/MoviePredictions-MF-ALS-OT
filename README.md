@@ -5,7 +5,7 @@
 The code is organized into three seperate directories:
 - `jm/SolveALS.py` contains the core SGD and ALS implementations, along with the grid search and hyper parameter tuning.
 - `ek/ot_solver.ipynb` contains the notebook with the Inverse Optimal Transport implementation and analysis
-- `mi/github_stff.ipynb` contains the notebook with the Regularized Inverse Optimal Transport analysis, the implementation is in the `Matcher.py` script.
+- `mi/RIOT.ipynb` contains the notebook with the Regularized Inverse Optimal Transport analysis, the implementation is in the `Matcher.py` and `ot.py` scripts, both derived from the project experiments of https://jmlr.csail.mit.edu/papers/volume20/18-700/18-700.pdf .
 
 ## generate.py
 Use the file *generate.py* to complete your ratings table. 
