@@ -2,6 +2,8 @@
 
 This group project was completed for the Data Science Lab course as part of the IASD Master Program (AI Systems and Data Science) at PSL Research University.
 The project accomplished the following:
+
+- Successfully implemented alternating least squares (ALS) matrix factorization for collaborative filtering to predict user-item ratings in sparse data.
 - Investigated optimal transport plan interpretation and its application in computing optimal matchings, with a focus on the cost matrix interpretation and RMSE results.
 - Explored the challenge of interpreting outputs as movie ratings, revealing non-linear distributions and the impact of extreme sparsity in the input ratings matrix on the results.
 - Identified the limitations of the developed linear bin-based method in capturing deep representations of movie ratings and the potential for improvement through more intelligent rating mapping.
