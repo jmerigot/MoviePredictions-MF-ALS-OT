@@ -17,7 +17,7 @@ The code is organized into three seperate directories:
 - `mi/RIOT.ipynb` contains the notebook with the Regularized Inverse Optimal Transport analysis, the implementation is in the `Matcher.py` and `ot.py` scripts, both derived from the project experiments of https://jmlr.csail.mit.edu/papers/volume20/18-700/18-700.pdf .
 
 ## General Information
-If you want to cop and recreate this project, or test it for yourself, some important information to know.
+If you want to copy and recreate this project, or test it for yourself, some important information to know.
 
 ### generate.py
 Use the file *generate.py* to complete your ratings table. 
