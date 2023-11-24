@@ -7,7 +7,7 @@ The project accomplished the following:
 - Identified the limitations of the developed linear bin-based method in capturing deep representations of movie ratings and the potential for improvement through more intelligent rating mapping.
 - Concluded that the extreme sparsity of the input ratings matrix posed a significant challenge for optimal transport, leading to skewed costs and transport plans, and highlighted the need for further investigation into this problem.
 
-The full report associated with this project can be found in the report.pdf file of this repository, which details our approach and methods used to complete this project, as well as the analyzed results.
+The full report associated with this project can be found in the *KIRBY_MERIGOT_INANE_ds_projet_report.pdf* file of this repository, which details our approach and methods used to complete this project, as well as the analyzed results.
 
 ## Note for Reviewers:
 
