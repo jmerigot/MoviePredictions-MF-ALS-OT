@@ -33,10 +33,10 @@ This project was made possible with the guidance and support of the following :
 
 This project was a group project and was accomplished through team work involving the following students :
 
-- **Matteo Sammut**
+- **Ellington Kirby**
   - Masters student in the IASD Master Program (AI Systems and Data Science) at PSL Research University.
 
-- **Alexandre Ngau**
+- **Mehdi Inane**
   - Masters student in the IASD Master Program (AI Systems and Data Science) at PSL Research University.
 
 - **Jules Merigot** (myself)
