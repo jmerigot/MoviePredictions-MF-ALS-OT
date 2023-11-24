@@ -1,6 +1,15 @@
-# DataLabAssignement1
+# Collaborative Filtering and Optimal Transport for Recommender Systems
 
-# Note for Reviewers:
+This group project was completed for the Data Science Lab course as part of the IASD Master Program (AI Systems and Data Science) at PSL Research University.
+The project accomplished the following:
+- Investigated optimal transport plan interpretation and its application in computing optimal matchings, with a focus on the cost matrix interpretation and RMSE results.
+- Explored the challenge of interpreting outputs as movie ratings, revealing non-linear distributions and the impact of extreme sparsity in the input ratings matrix on the results.
+- Identified the limitations of the developed linear bin-based method in capturing deep representations of movie ratings and the potential for improvement through more intelligent rating mapping.
+- Concluded that the extreme sparsity of the input ratings matrix posed a significant challenge for optimal transport, leading to skewed costs and transport plans, and highlighted the need for further investigation into this problem.
+
+The full report associated with this project can be found in the report.pdf file of this repository, which details our approach and methods used to complete this project, as well as the analyzed results.
+
+## Note for Reviewers:
 
 The code is organized into three seperate directories:
 - `jm/SolveALS.py` contains the core SGD and ALS implementations, along with the grid search and hyper parameter tuning.
